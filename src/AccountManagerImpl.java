@@ -101,8 +101,17 @@ public class AccountManagerImpl implements AccountManager{
         return 0;
     }
 
+    /**
+     * Check balance in account
+     * @return balance
+     */
     @Override
     public int balance() {
-        return 0;
+        if (this.authorizedAccount != null) {
+            return this.authorizedAccount.balance();
+        } else {
+            System.out.println("Account not authorized, please authorize first!");
+            return 0;
+        }
     }
 }
