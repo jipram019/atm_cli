@@ -6,11 +6,13 @@ public class AccountImpl implements Account{
     int accountId;
     int accountPin;
     int balance;
+    AccountManagerImpl accountManager;
 
     public AccountImpl(int accountId, int accountPin){
         this.accountId = accountId;
         this.accountPin = accountPin;
         this.balance = 0;
+        this.accountManager = new AccountManagerImpl();
     }
 
     /**

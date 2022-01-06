@@ -71,7 +71,7 @@ public class AccountManagerImpl implements AccountManager{
      * @param accountId
      * @return Account
      */
-    private Account getAccount(int accountId) {
+    public Account getAccount(int accountId) {
         return this.accounts.get(accountId);
     }
 
