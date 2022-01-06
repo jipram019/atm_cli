@@ -12,15 +12,29 @@ public class AccountManagerImpl implements AccountManager{
     int totalAmount; // Total amount that can be withdrawn
     Map<Integer, Account> accounts; // List of all accounts, stored in memory for now
 
-    @Override
-    public Account open(int accountId, int accountPin) {
-        return null;
-    }
-
     public AccountManagerImpl(){
         this.authorizedAccount = null;
         this.totalAmount = 1000000; // hardcoded for now
         this.accounts = new HashMap<>();
+    }
+
+    /**
+     * Open an account
+     * @param accountId
+     * @param accountPin
+     * @return Account instance
+     */
+    @Override
+    public Account open(int accountId, int accountPin) {
+        if (getAccount(accountId) == null) {
+            Account account = new AccountImpl(accountId, accountPin);
+            this.accounts.put(accountId, account);
+            System.out.println(String.format("Account %s created.", accountId));
+            return account;
+        } else {
+            System.out.println("Account already exists.");
+            return getAccount(accountId);
+        }
     }
 
     /**
@@ -43,7 +57,7 @@ public class AccountManagerImpl implements AccountManager{
                     return null;
                 }
             } else {
-                System.out.println(String.format("Account %s does not exist.", accountId));
+                System.out.println(String.format("Account %s does not exist. Open account first", accountId));
                 return null;
             }
         } else {
