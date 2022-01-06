@@ -36,4 +36,18 @@ public class AccountManagerImplTest {
         assertEquals(authorizedAccount, account);
         assertNotEquals(authorizedAccount, account2);
     }
+
+    @Test
+    void logout() {
+        // Can't log out without being logged in.
+        Account account = accountManager.open(1, 1);
+        assertFalse(this.accountManager.logout());
+
+        // Login
+        assertEquals(this.accountManager.login(1, 1), this.accountManager.authorizedAccount);
+
+        // Logout
+        assertTrue(this.accountManager.logout());
+        assertNull(this.accountManager.authorizedAccount);
+    }
 }

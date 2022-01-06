@@ -75,9 +75,20 @@ public class AccountManagerImpl implements AccountManager{
         return this.accounts.get(accountId);
     }
 
+    /**
+     * Log out of account
+     * @return
+     */
     @Override
     public boolean logout() {
-        return false;
+        if (this.authorizedAccount != null) {
+            this.authorizedAccount.logout();
+            this.authorizedAccount = null;
+            return true;
+        } else {
+            System.out.println("No account is currently logged in.");
+            return false;
+        }
     }
 
     @Override
