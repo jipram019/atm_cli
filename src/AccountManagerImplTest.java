@@ -50,4 +50,29 @@ public class AccountManagerImplTest {
         assertTrue(this.accountManager.logout());
         assertNull(this.accountManager.authorizedAccount);
     }
+
+    @Test
+    void deposit() {
+        // Must login first before deposit
+        Account atmAccount = accountManager.open(1, 1);
+        assertEquals(accountManager.deposit(100), 0);
+
+        // Login to an account then deposit, and make sure total available amount for withdrawal is updated
+        this.accountManager.login(1, 1);
+        assertEquals(this.accountManager.deposit(100), 100);
+        assertEquals(this.accountManager.totalAmount, 10100);
+    }
+
+    @Test
+    void balance() {
+        // Must login first before checking balance
+        Account atmAccount = accountManager.open(1, 1);
+        atmAccount.deposit(100);
+        assertEquals(accountManager.balance(), 0);
+
+        // Login to an account and then deposit, and make sure total available amount for withdrawal is updated
+        this.accountManager.login(1, 1);
+        assertEquals(this.accountManager.deposit(100), this.accountManager.balance());
+        assertEquals(this.accountManager.totalAmount, 10100);
+    }
 }

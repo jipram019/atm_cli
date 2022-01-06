@@ -9,7 +9,7 @@ import java.util.Map;
 /** AccountManager represents module to manage accounts **/
 public class AccountManagerImpl implements AccountManager{
     Account authorizedAccount; // Current authorized account, only 1 account at a time could login
-    int totalAmount; // Total amount that can be withdrawn
+    int totalAmount; // Total amount that can be withdrawn from the ATM
     Map<Integer, Account> accounts; // List of all accounts, stored in memory for now
 
     public AccountManagerImpl(){
@@ -96,9 +96,20 @@ public class AccountManagerImpl implements AccountManager{
         return 0;
     }
 
+    /**
+     * Deposit into an account
+     * @param amount
+     * @return
+     */
     @Override
     public int deposit(int amount) {
-        return 0;
+        if (this.authorizedAccount != null) {
+            this.totalAmount += amount;
+            return this.authorizedAccount.deposit(amount);
+        } else {
+            System.out.println("Account not authorized, please authorize first!");
+            return 0;
+        }
     }
 
     /**
