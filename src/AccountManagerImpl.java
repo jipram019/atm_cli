@@ -91,9 +91,41 @@ public class AccountManagerImpl implements AccountManager{
         }
     }
 
+    /**
+     * Withdraw from an account
+     * @param amount
+     * @return balance after withdrawal
+     */
     @Override
     public int withdraw(int amount) {
-        return 0;
+        if (this.authorizedAccount != null) {
+            // Make sure there's enough money in the ATM
+            if (this.totalAmount <= 0) {
+                System.out.println("Unable to process your withdrawal at this time.");
+                return this.authorizedAccount.balance();
+            }
+
+            // Make sure the account isn't overdrawn
+            else if (this.authorizedAccount.balance() <= 0) {
+                System.out.println("Your account is overdrawn! You may not make withdrawals at this time.");
+                return this.authorizedAccount.balance();
+            }
+
+            // If amount is greater than amount in ATM, only let them withdraw however much is in ATM
+            else if (amount > this.totalAmount) {
+                System.out.println("Amount exceeded total amount available for withdrawals.");
+                return this.authorizedAccount.balance();
+            }
+
+            else {
+                this.totalAmount -= amount;
+                return this.authorizedAccount.withdraw(amount);
+            }
+
+        } else {
+            System.out.println("Account not authorized, please authorize first!");
+            return 0;
+        }
     }
 
     /**

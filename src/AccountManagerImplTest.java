@@ -75,4 +75,29 @@ public class AccountManagerImplTest {
         assertEquals(this.accountManager.deposit(100), this.accountManager.balance());
         assertEquals(this.accountManager.totalAmount, 10100);
     }
+
+    @Test
+    void withdraw() {
+        // Make sure can't withdraw without logged in
+        Account atmAccount = accountManager.open(1, 1);
+        assertEquals(accountManager.withdraw(100), 0);
+
+        // Withdraw $100, will over draw the account and withdrawal will fail
+        accountManager.login(1,1);
+        assertEquals(accountManager.withdraw(100), 0);
+        assertEquals(accountManager.totalAmount, 1000000);
+
+        // Deposit money so we can test for more withdrawal logic
+        accountManager.deposit(100);
+        assertEquals(accountManager.totalAmount, 1000100);
+
+        // Normal case
+        assertEquals(accountManager.withdraw(100), 0);
+        assertEquals(accountManager.totalAmount, 1000000);
+
+        // Can't withdraw more because account is overdrawn
+        assertEquals(accountManager.withdraw(100), 0);
+        assertEquals(accountManager.totalAmount, 1000000);
+    }
+
 }

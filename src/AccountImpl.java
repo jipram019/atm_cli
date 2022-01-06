@@ -63,9 +63,8 @@ public class AccountImpl implements Account{
             System.out.println(String.format("Amount withdrawn: $%s", amount));
             System.out.println(String.format("Current balance: $%s", this.balance));
         } else if(this.balance - amount < 0){
-            this.balance -= (amount + 5);
             System.out.println(String.format("Amount to withdraw: $%s", amount));
-            System.out.println(String.format("You have been charged an overdraft fee of $5. Current balance: $%s", this.balance));
+            System.out.println(String.format("Amount to withdraw exceeded available amount. Current balance: $%s", this.balance));
         }
         return balance;
     }
